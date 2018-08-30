@@ -1,6 +1,10 @@
 package viel.victor.joao.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import viel.victor.joao.model.Viagem;
@@ -12,14 +16,15 @@ public class ViagemService {
 	@Autowired
 	private ViagemRepository viagemRepository;
 
-	public Viagem salvarECalcularPreco(Viagem viagem) {
-		if (viagem.getValorTotal() != null) {
-			return viagemRepository.save(viagem);
-		} else {
-			Float valorTotal = viagem.getValorPessoa() * viagem.getQuantidadePessoas();
-			Float valorTotalComLucro = (valorTotal * viagem.getMargemLucro())/100;
-			viagem.setValorTotal(valorTotalComLucro);
-		}
+	public Viagem buscarViagemPorId(Long id) {
+		Optional<Viagem> viagemOptional = viagemRepository.findById(id);
+		Viagem viagem = viagemOptional.orElseThrow(() -> new EmptyResultDataAccessException(1));
 		return viagem;
+	}
+	
+	public Viagem atualizarViagem(Long id, Viagem viagem) {
+		Viagem viagemSalva = buscarViagemPorId(id);
+		BeanUtils.copyProperties(viagem, viagemSalva, "id");
+		return viagemRepository.save(viagemSalva);
 	}
 }
