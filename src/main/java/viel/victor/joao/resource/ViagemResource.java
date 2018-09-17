@@ -54,6 +54,11 @@ public class ViagemResource {
 		return ResponseEntity.ok(viagemSalva);
 	}
 	
+	@PutMapping("/valorTotal")
+	public Viagem calcularTotalPorPessoa(@RequestBody Viagem viagem) {
+		return viagemService.calcularTotal(viagem);
+	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void removerViagem(@PathVariable Long id) {

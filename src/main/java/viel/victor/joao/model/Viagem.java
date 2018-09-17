@@ -1,13 +1,17 @@
 package viel.victor.joao.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -44,9 +48,6 @@ public class Viagem {
 	@Column(name = "qtde_pessoa")
 	private Integer quantidadePessoas;
 	
-	@Column(name = "valor_total")
-	private Float valorTotal;
-	
 	@Column(name = "margem_lucro")
 	private Float margemLucro;
 	
@@ -58,11 +59,11 @@ public class Viagem {
 	@JoinColumn(name = "id_hotel")
 	private Hotel hotel;
 	
-	/*@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "viagem_cliente", joinColumns = 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "viagem_despesa", joinColumns = 
 	@JoinColumn(name = "id_viagem"), inverseJoinColumns = 
-	@JoinColumn(name = "id_cliente"))
-	private List<Cliente> clientes;*/
+	@JoinColumn(name = "id_despesa"))
+	private List<Despesas> despesas;
 
 	public Long getId() {
 		return id;
@@ -120,14 +121,6 @@ public class Viagem {
 		this.quantidadePessoas = quantidadePessoas;
 	}
 
-	public Float getValorTotal() {
-		return valorTotal;
-	}
-
-	public void setValorTotal(Float valorTotal) {
-		this.valorTotal = valorTotal;
-	}
-
 	public Float getMargemLucro() {
 		return margemLucro;
 	}
@@ -150,6 +143,14 @@ public class Viagem {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
+	}
+	
+	public void setDespesas(List<Despesas> despesas) {
+		this.despesas = despesas;
+	}
+	
+	public List<Despesas> getDespesas() {
+		return despesas;
 	}
 
 	@Override

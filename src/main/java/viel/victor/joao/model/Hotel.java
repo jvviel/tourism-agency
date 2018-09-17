@@ -38,7 +38,7 @@ public class Hotel {
 	@Column(name = "preco_diaria")
 	private Float precoDiaria;
 	
-	@NotEmpty(message = "Localização é obrigatória!")
+	//@NotEmpty(message = "Localização é obrigatória!")
 	private String localizacao;
 	
 	@NotEmpty(message = "Opção de café da manhã é obrigatória!")

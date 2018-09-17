@@ -1,35 +1,35 @@
 package viel.victor.joao.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.NumberFormat;
 
 @Entity
-@Table(name = "despesas")
-public class Despesas {
+@Table(name = "pacotes")
+public class Pacotes {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "Descrição é obrigatória!")
-	@Size(max=100, message = "Descrição não pode ter mais que 100 caracteres!")
 	private String descricao;
-
-	@NotNull(message = "Preço diária é obrigatório!")
-	@DecimalMin(value = "0.01", message = "Valor não pode ser menor que R$ 0,01")
-	@DecimalMax(value = "999999999.99", message = "Valor não pode ser maior que R$ 9.999.999,99")
-	@NumberFormat(pattern = "#,##0.00")
-	private Float valor;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_viagem")
+	private Viagem viagem;
+	
+	private Float desconto;
+	
+	@Column(name = "qtde_pessoas")
+	private Integer quantidadePessoas;
+	
+	@Column(name = "valor_total")
+	private Float valorTotal;
 
 	public Long getId() {
 		return id;
@@ -46,13 +46,37 @@ public class Despesas {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	public Float getValor() {
-		return valor;
+
+	public Viagem getViagem() {
+		return viagem;
 	}
-	
-	public void setValor(Float valor) {
-		this.valor = valor;
+
+	public void setViagem(Viagem viagem) {
+		this.viagem = viagem;
+	}
+
+	public Float getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(Float desconto) {
+		this.desconto = desconto;
+	}
+
+	public Integer getQuantidadePessoas() {
+		return quantidadePessoas;
+	}
+
+	public void setQuantidadePessoas(Integer quantidadePessoas) {
+		this.quantidadePessoas = quantidadePessoas;
+	}
+
+	public Float getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Float valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 	@Override
@@ -71,7 +95,7 @@ public class Despesas {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Despesas other = (Despesas) obj;
+		Pacotes other = (Pacotes) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
